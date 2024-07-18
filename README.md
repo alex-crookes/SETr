@@ -4,6 +4,14 @@ Simple Expense Tracker (React Native)
 
 The purpose of SETr is to investigate best-practices for building React Native, including
 
+## Managed 12 point config (https://github.com/alex-crookes/SETr/commit/228844376f6fafb0fb2826338cdc0b600347f7ae)
+
+Currently, this is managed by Expo. React Native Config would the alterantive if using ReactNative CLI
+
+## Localization
+
+
+
 ## Separation of concerns (Clean code)
 
 RN makes it far too easy to build god-controller type classes - You can see this in pretty much every single tutorial ever. I prefer to use separated layers where

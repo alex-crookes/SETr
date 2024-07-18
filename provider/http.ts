@@ -1,4 +1,4 @@
-const API_ROOT = AppSettings.FIREBASE_API;
+const API_ROOT = process.env.EXPO_PUBLIC_FIREBASE_API;
 
 import axios from "axios";
 import { Expense } from "./ExpensesReducer";
@@ -11,6 +11,7 @@ export async function addNewExpense(expenseData: Expense) {
 }
 
 export async function fetchAllExpenses(): Promise<Expense[]> {
+  console.log(`Fetching all expenses from ${API_ROOT}`);
   const reponses = await axios.get(`${API_ROOT}/expenses.json`);
   const expenses = [];
 
