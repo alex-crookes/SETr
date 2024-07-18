@@ -2,7 +2,7 @@
 
 Simple Expense Tracker (React Native)
 
-The purpose of SETr is to investigate best-practices for building React Native.
+The purpose of SETr is to investigate best-practices for building React Native, including
 
 ## Separation of concerns (Clean code)
 

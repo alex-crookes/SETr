@@ -1,7 +1,8 @@
-const API_ROOT = "<YOUR API KEY HERE>";
+const API_ROOT = AppSettings.FIREBASE_API;
 
 import axios from "axios";
 import { Expense } from "./ExpensesReducer";
+import AppSettings from "../AppSettings";
 
 export async function addNewExpense(expenseData: Expense) {
   const response = await axios.post(`${API_ROOT}/expenses.json`, expenseData);
