@@ -4,13 +4,17 @@ Simple Expense Tracker (React Native)
 
 The purpose of SETr is to investigate best-practices for building React Native, including
 
-## Managed 12 point config (https://github.com/alex-crookes/SETr/commit/228844376f6fafb0fb2826338cdc0b600347f7ae)
+## Managed 12 point config
 
-Currently, this is managed by Expo. React Native Config would the alterantive if using ReactNative CLI
+12 Point config allows for configuration-driven Environment management. This has been implemented with Expo's Config Library in the [Following Commit](https://github.com/alex-crookes/SETr/commit/228844376f6fafb0fb2826338cdc0b600347f7ae)
+
+React Native Config would the alterantive if using ReactNative CLI
 
 ## Localization
 
+Localization is managed both by the Expo Localization library, and i18n-JS
 
+This latter [library](https://github.com/fnando/i18n#readme) is what manages the Translation aspects of the code. Inside the Localization folder are files for each language. the `xx.json` file is the "default" language and should be the "developers" language. This makes it clear to the Dev (and testers) when a language is NOT translated.
 
 ## Separation of concerns (Clean code)
 
