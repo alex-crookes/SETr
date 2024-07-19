@@ -1,19 +1,23 @@
 import { DateTime } from "luxon";
 import { Expense } from "../provider/ExpensesReducer";
 import { View, Text, StyleSheet } from "react-native";
+import { copy } from "../localization/Localization";
 
 function ExpenseDetail({ expense }: Props) {
   const date = DateTime.fromMillis(expense.date).toLocaleString(
     DateTime.DATETIME_MED
   );
+  const printedDate = date //copy.l("date.formats.short", expense.date);
   return (
     <View style={styles.listItemContainer}>
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>{expense.description}</Text>
-        <Text style={styles.dateText}>{date}</Text>
+        <Text style={styles.dateText}>{printedDate}</Text>
       </View>
       <View>
-        <Text style={styles.amountText}>${expense.amount}</Text>
+        <Text style={styles.amountText}>
+          {copy.l("currency", expense.amount)}
+        </Text>
       </View>
     </View>
   );
