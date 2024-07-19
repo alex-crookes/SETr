@@ -1,0 +1,18 @@
+{
+  "app_Name": "XX_SETr",
+
+  "common_Description": "XX_Description",
+  "common_Amount": "XX_Amount",
+  "common_Loading": "XX_Loading...",
+
+  "section_NewExpense": "XX_New Expense",
+  "section_RecentExpenses": "XX_Recent Expenses",
+
+  "action_AddExpense": "XX_Add Expense",
+
+  "expense_ThereAreX": {
+    "zero": "XX_There are no records",
+    "one": "XX_There is one record",
+    "other": "_XX_There are %{count} records"
+  }
+}

@@ -3,16 +3,16 @@ import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addNew } from "../repository/Expenses";
 import { getCurrentMilliseconds } from "../extensions/time";
+import { copy } from "../localization/Localization";
 
 export function NewExpense() {
   const [amount, setAmount] = useState("0.0");
   const [description, setDescription] = useState("");
   const isSaving = useSelector((state: any) => state.ExpensesReducer.saving);
   const dispatch = useDispatch();
-  
 
   function handleAmountChange(value: string) {
-    console.log("Amount = ", value);    
+    console.log("Amount = ", value);
     setAmount(value);
   }
 
@@ -27,25 +27,25 @@ export function NewExpense() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionHeading}>New Expense</Text>
+      <Text style={styles.sectionHeading}>{copy.t("section_NewExpense")}</Text>
       <TextInput
         style={styles.inputField}
         keyboardType="decimal-pad"
-        placeholder="Amount"
+        placeholder={copy.t("common_Amount")}
         value={amount.toString()}
         onChangeText={handleAmountChange}
       />
       <TextInput
         style={styles.inputField}
         maxLength={200}
-        placeholder="Description"
+        placeholder={copy.t("common_Description")}
         multiline={true}
         numberOfLines={4}
         value={description}
         onChangeText={handleDescriptionChange}
       />
       <Button
-        title="Add Expense"
+        title={copy.t("action_AddExpense")}
         onPress={handleSaveExpense}
         disabled={isSaving}
       />

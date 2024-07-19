@@ -6,6 +6,7 @@ import { Expense } from "../provider/ExpensesReducer";
 import { RootState } from "../provider/RootStore";
 import { NewExpense } from "../components/NewExpense";
 import ExpenseDetail from "../components/ExpenseDetail";
+import { copy } from "../localization/Localization";
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -21,7 +22,9 @@ function MainPage() {
     (state: RootState) => state.ExpensesReducer.loading
   );
 
-  const text = loading ? "Loading" : `There are ${expenses.length} records`;
+  const text = loading
+    ? copy.t("common_Loading")
+    : copy.t("expense_ThereAreX", { count: expenses.length });
 
   return (
     <View>
@@ -30,7 +33,9 @@ function MainPage() {
         <FlatList
           data={expenses}
           ListHeaderComponent={
-            <Text style={styles.listHeaderText}>Recent Expenses</Text>
+            <Text style={styles.listHeaderText}>
+              {copy.t("app_Name")} - {copy.t("section_RecentExpenses")}
+            </Text>
           }
           renderItem={({ item }) => <ExpenseDetail expense={item} />}
           keyExtractor={(item) => item.id}
