@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addNew } from "../repository/Expenses";
 import { getCurrentMilliseconds } from "../extensions/time";
-import { copy } from "../localization/Localization";
+import { translate } from "../localization/Localization";
 
 export function NewExpense() {
   const [amount, setAmount] = useState("0.0");
@@ -27,25 +27,27 @@ export function NewExpense() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionHeading}>{copy.t("section_NewExpense")}</Text>
+      <Text style={styles.sectionHeading}>
+        {translate("section_NewExpense")}
+      </Text>
       <TextInput
         style={styles.inputField}
         keyboardType="decimal-pad"
-        placeholder={copy.t("common_Amount")}
+        placeholder={translate("common_Amount")}
         value={amount.toString()}
         onChangeText={handleAmountChange}
       />
       <TextInput
         style={styles.inputField}
         maxLength={200}
-        placeholder={copy.t("common_Description")}
+        placeholder={translate("common_Description")}
         multiline={true}
         numberOfLines={4}
         value={description}
         onChangeText={handleDescriptionChange}
       />
       <Button
-        title={copy.t("action_AddExpense")}
+        title={translate("action_AddExpense")}
         onPress={handleSaveExpense}
         disabled={isSaving}
       />

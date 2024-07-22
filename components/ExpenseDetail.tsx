@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Expense } from "../provider/ExpensesReducer";
 import { View, Text, StyleSheet } from "react-native";
-import { copy } from "../localization/Localization";
+import { localizeCurrency } from "../localization/Localization";
 
 function ExpenseDetail({ expense }: Props) {
   const date = DateTime.fromMillis(expense.date).toLocaleString(
@@ -16,7 +16,7 @@ function ExpenseDetail({ expense }: Props) {
       </View>
       <View>
         <Text style={styles.amountText}>
-          {copy.l("currency", expense.amount)}
+          {localizeCurrency(expense.amount)}
         </Text>
       </View>
     </View>

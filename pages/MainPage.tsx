@@ -6,7 +6,7 @@ import { Expense } from "../provider/ExpensesReducer";
 import { RootState } from "../provider/RootStore";
 import { NewExpense } from "../components/NewExpense";
 import ExpenseDetail from "../components/ExpenseDetail";
-import { copy } from "../localization/Localization";
+import { translate } from "../localization/Localization";
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -23,8 +23,8 @@ function MainPage() {
   );
 
   const text = loading
-    ? copy.t("common_Loading")
-    : copy.t("expense_ThereAreX", { count: expenses.length });
+    ? translate("common_Loading")
+    : translate("expense_ThereAreX", { count: expenses.length });
 
   return (
     <View>
@@ -34,7 +34,7 @@ function MainPage() {
           data={expenses}
           ListHeaderComponent={
             <Text style={styles.listHeaderText}>
-              {copy.t("app_Name")} - {copy.t("section_RecentExpenses")}
+              {translate("app_Name")} - {translate("section_RecentExpenses")}
             </Text>
           }
           renderItem={({ item }) => <ExpenseDetail expense={item} />}
