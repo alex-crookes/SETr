@@ -2,52 +2,42 @@ import { DateTime } from "luxon";
 import { Expense } from "../provider/ExpensesReducer";
 import { View, Text, StyleSheet } from "react-native";
 import { localizeCurrency } from "../localization/Localization";
+import { ThemeContext } from "../ds/ThemeProvider";
+import { useContext } from "react";
 
 function ExpenseDetail({ expense }: Props) {
+  const { measurements, typography, colors } = useContext(ThemeContext);
+
   const date = DateTime.fromMillis(expense.date).toLocaleString(
     DateTime.DATETIME_MED
   );
-  const printedDate = date //copy.l("date.formats.short", expense.date);
+  const printedDate = date; //copy.l("date.formats.short", expense.date);
   return (
-    <View style={styles.listItemContainer}>
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>{expense.description}</Text>
-        <Text style={styles.dateText}>{printedDate}</Text>
+    <View
+      style={{
+        flexDirection: "row",
+        paddingBottom: measurements.paragraphGap,
+        paddingTop: measurements.paragraphGap,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderColor: colors.outlineVariant,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "column",
+          justifyContent: "space-between",
+          flex: 1,
+        }}
+      >
+        <Text style={typography.titleSmall}>{expense.description}</Text>
+        <Text style={typography.bodySmallPassive}>{printedDate}</Text>
       </View>
       <View>
-        <Text style={styles.amountText}>
-          {localizeCurrency(expense.amount)}
-        </Text>
+        <Text style={typography.title}>{localizeCurrency(expense.amount)}</Text>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  listItemContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingBottom: 16,
-  },
-  descriptionContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-  amountText: {
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-  descriptionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  dateText: {
-    fontSize: 12,
-    color: "#444",
-  },
-});
 
 type Props = {
   expense: Expense;

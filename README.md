@@ -27,4 +27,17 @@ RN makes it far too easy to build god-controller type classes - You can see this
 
 ## Design System
 
-The Design System will split the Presentation layer in two - Pages and Components will remain, while Assets, Colors, Typography /etc will be moved, along with _reusable_ components, to a DS folder. The goal is to then split to this to a re-usable project
+There is now a perfunctory Design System that is based loosely on Material. The core is a React Context provider (`./ds/ThemeProvider.tsx`) which wraps the application. Other pages, components /etc can then access the atoms from the `useTheme()` hook.
+
+The theme permits color management from Material colors as found in `./material-theme.json`; Dark Mode / Light mode is supported.
+
+The Theme can also be initialized with a base Font and base Grid Size. Currently, there is no provision for changing the font
+
+Common, opinionated components can be found in `./ds/components` and demonstrate best practices. Where built, they provide _as little customization as possible_ except modification.
+
+There are four main goals moving forward:
+
+- Develop the component library to include buttons and other elements
+- extend the styles to be more semantic and complete
+- fix a couple of bugs with style switching
+- Add a persistence layer to permit storing settings over a reboot.
