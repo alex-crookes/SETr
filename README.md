@@ -35,9 +35,17 @@ The Theme can also be initialized with a base Font and base Grid Size. Currently
 
 Common, opinionated components can be found in `./ds/components` and demonstrate best practices. Where built, they provide _as little customization as possible_ except modification.
 
-There are four main goals moving forward:
+Button components are now added - There are currently three type `<PrimaryButton>`, `<SecondaryButton>` and `<LinkButton>` (correspond to Filled, Outlined and Text in Material). They are created as Components rather than style to provide encapsulation. 
 
-- Develop the component library to include buttons and other elements
-- extend the styles to be more semantic and complete
+Primary and Secondary are essentally the same and can optionally be presented with an [Ionicon](https://ionic.io/ionicons) icon and in small mode. LinkButtons will ignore the icon
+
+Ideally, there would be some refactoring to create a single button class, but it will get ugly when managing the various permutations.
+
+### Next Steps
+
+There are two main goals moving forward:
+
+- Develop the component library to include ~~buttons and other~~ elements
+- ~~extend the styles to be more semantic and complete~~ This is ongoing and will always be required when adding new Components to the DS
 - fix a couple of bugs with style switching
 - Add a persistence layer to permit storing settings over a reboot.

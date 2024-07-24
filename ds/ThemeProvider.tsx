@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import themeColors from "../material-theme.json";
-import { ColorValue, DimensionValue, StyleSheet } from "react-native";
+import { AnimatableNumericValue, ColorValue, DimensionValue, StyleSheet } from "react-native";
 import { ColorPalette } from "./ColorPalette";
 
 // #region Typography
@@ -160,6 +160,9 @@ function buildTypeScale(palette: ColorPalette, fontName: string) {
       ...materialStyles.labelLarge,
       color: "#FF00FF",
     },
+    smallButtonLabel: { ...materialStyles.bodyMedium },
+    buttonLabel: { ...materialStyles.bodyLarge}
+
   });
 }
 
@@ -194,6 +197,10 @@ type Measurements = {
   sectionGap: DimensionValue;
   elementGap: DimensionValue;
   paragraphGap: DimensionValue;
+  buttonHeight: DimensionValue;
+  buttonCornerRadius: DimensionValue;
+  smallButtonHeight: DimensionValue;
+  smallButtonCornerRadius: DimensionValue;
 };
 
 function buildMeasurements(gridSize: number): Measurements {
@@ -224,6 +231,10 @@ function buildMeasurements(gridSize: number): Measurements {
     sectionGap: (gridSize * 4) as DimensionValue,
     elementGap: (gridSize * 2) as DimensionValue,
     paragraphGap: (gridSize * 1) as DimensionValue,
+    buttonHeight: (gridSize * 8) as DimensionValue,
+    buttonCornerRadius: (gridSize * 4) as DimensionValue,
+    smallButtonHeight: (gridSize * 5) as DimensionValue,
+    smallButtonCornerRadius: (gridSize * 2.5) as DimensionValue,
   };
 }
 
@@ -248,13 +259,14 @@ function buildBlocks(colors: ColorPalette, measurements: Measurements) {
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.outline,
       backgroundColor: colors.outlineVariant,
-      borderRadius: measurements.oneHalfX,
+      borderRadius: measurements.oneHalfX as AnimatableNumericValue,
       padding: measurements.oneX,
       marginBottom: measurements.oneX,
       color: colors.onSurface,
     },
   });
 }
+
 // #endregion Blocks
 
 const defaultOptions: ThemeOptions = {

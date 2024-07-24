@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { View, Text, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { loadExpenses } from "../repository/Expenses";
 import { Expense } from "../provider/ExpensesReducer";
@@ -10,6 +10,7 @@ import { translate } from "../localization/Localization";
 import { ThemeContext } from "../ds/ThemeProvider";
 import ListHeader from "../ds/molecules/ListHeader";
 import ElementBlock from "../ds/molecules/ElementBlock";
+import SecondaryButton from "../ds/molecules/SecondaryButton";
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function MainPage() {
     loadExpenses(dispatch);
   }, []);
 
-  //const { layout, colors } = useTheme(true, 8);
+  const [submitting, isSubmitting] = useState(false);
 
   const { isDarkTheme, colors, measurements, blocks, typography, toggleTheme } =
     useContext(ThemeContext);
@@ -37,10 +38,17 @@ function MainPage() {
   const title = `${translate("app_Name")} - ${translate(
     "section_RecentExpenses"
   )}`;
+  const icon = isDarkTheme ? "sunny-outline" : "moon-outline";
 
   const handleThemeChange = () => {
+    isSubmitting(true);
     toggleTheme();
+    setTimeout(() => {
+      isSubmitting(false);
+    }, 1000);
   };
+
+  const themeButtonText = isDarkTheme ? "USE LIGHT MODE" : "USE DARK MODE";
 
   return (
     <View style={blocks.pageContainer}>
@@ -48,23 +56,18 @@ function MainPage() {
         <NewExpense />
         <FlatList
           data={expenses}
-          ListHeaderComponent={
-            <>
-              <ListHeader text={title} />
-              {/* <Text style={styles.listHeaderText}>
-                {translate("app_Name")} - {translate("section_RecentExpenses")}
-              </Text> */}
-            </>
-          }
+          ListHeaderComponent={<ListHeader text={title} />}
           renderItem={({ item }) => <ExpenseDetail expense={item} />}
           keyExtractor={(item) => item.id}
         />
       </ElementBlock>
       <Text style={typography.bodyError}>{text}</Text>
 
-      <Button
-        title={isDarkTheme ? "Use Light" : "Use Dark"}
+      <SecondaryButton
+        title={themeButtonText}
         onPress={handleThemeChange}
+        disabled={submitting}
+        icon={icon}        
       />
     </View>
   );

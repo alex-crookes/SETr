@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { AnimatableNumericValue, Text, View } from "react-native";
 import { ThemeContext } from "../ThemeProvider";
 import { useContext } from "react";
 
@@ -8,7 +8,7 @@ function Panel(props: PanelProps) {
     <View
       style={{
         padding: measurements.twoX,
-        borderRadius: measurements.threeX,
+        borderRadius: measurements.oneAndHalfX as AnimatableNumericValue,
         backgroundColor: colors.surfaceContainer,
       }}
     >

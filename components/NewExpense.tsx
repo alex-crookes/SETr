@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, Button } from "react-native";
+import { TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addNew } from "../repository/Expenses";
 import { getCurrentMilliseconds } from "../extensions/time";
@@ -7,14 +7,15 @@ import { translate } from "../localization/Localization";
 import { ThemeContext } from "../ds/ThemeProvider";
 import { useContext } from "react";
 import Panel from "../ds/molecules/Panel";
+import PrimaryButton from "../ds/molecules/PrimaryButton";
 
 export function NewExpense() {
   const [amount, setAmount] = useState("0.0");
   const [description, setDescription] = useState("");
   const isSaving = useSelector((state: any) => state.ExpensesReducer.saving);
   const dispatch = useDispatch();
-
-  const { blocks } = useContext(ThemeContext);
+  
+  const { blocks, measurements } = useContext(ThemeContext);
 
   function handleAmountChange(value: string) {
     console.log("Amount = ", value);
@@ -49,11 +50,22 @@ export function NewExpense() {
           value={description}
           onChangeText={handleDescriptionChange}
         />
-        <Button
-          title={translate("action_AddExpense")}
-          onPress={handleSaveExpense}
-          disabled={isSaving}
-        />
+        <View
+          style={{
+            width: measurements.twentyX,
+            justifyContent: "center",
+            alignSelf: "center",
+            flexDirection: "column",
+          }}
+        >
+          <PrimaryButton
+            title={translate("action_AddExpense")}
+            onPress={handleSaveExpense}
+            disabled={isSaving}
+            icon={"cash-outline"}
+            smallMode={true}
+          />
+        </View>
       </Panel>
     </>
   );
