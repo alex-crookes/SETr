@@ -1,18 +1,23 @@
 import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import { TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addNew } from "../repository/Expenses";
 import { getCurrentMilliseconds } from "../extensions/time";
 import { translate } from "../localization/Localization";
+import { ThemeContext } from "../ds/ThemeProvider";
+import { useContext } from "react";
+import Panel from "../ds/molecules/Panel";
+import PrimaryButton from "../ds/molecules/PrimaryButton";
 
 export function NewExpense() {
   const [amount, setAmount] = useState("0.0");
   const [description, setDescription] = useState("");
   const isSaving = useSelector((state: any) => state.ExpensesReducer.saving);
   const dispatch = useDispatch();
+  
+  const { blocks, measurements, colors } = useContext(ThemeContext);
 
-  function handleAmountChange(value: string) {
-    console.log("Amount = ", value);
+  function handleAmountChange(value: string) {    
     setAmount(value);
   }
 
@@ -26,50 +31,42 @@ export function NewExpense() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.sectionHeading}>
-        {translate("section_NewExpense")}
-      </Text>
-      <TextInput
-        style={styles.inputField}
-        keyboardType="decimal-pad"
-        placeholder={translate("common_Amount")}
-        value={amount.toString()}
-        onChangeText={handleAmountChange}
-      />
-      <TextInput
-        style={styles.inputField}
-        maxLength={200}
-        placeholder={translate("common_Description")}
-        multiline={true}
-        numberOfLines={4}
-        value={description}
-        onChangeText={handleDescriptionChange}
-      />
-      <Button
-        title={translate("action_AddExpense")}
-        onPress={handleSaveExpense}
-        disabled={isSaving}
-      />
-    </View>
+    <>
+      <Panel title={translate("section_NewExpense")}>
+        <TextInput
+          style={blocks.inputTextField}
+          keyboardType="decimal-pad"
+          placeholder={translate("common_Amount")}
+          value={amount.toString()}
+          onChangeText={handleAmountChange}
+        />
+        <TextInput
+          style={blocks.inputTextField}
+          maxLength={200}
+          placeholder={translate("common_Description")}
+          placeholderTextColor={ colors.outline}          
+          multiline={true}
+          numberOfLines={4}
+          value={description}
+          onChangeText={handleDescriptionChange}
+        />
+        <View
+          style={{
+            width: measurements.twentyX,
+            justifyContent: "center",
+            alignSelf: "center",
+            flexDirection: "column",
+          }}
+        >
+          <PrimaryButton
+            title={translate("action_AddExpense")}
+            onPress={handleSaveExpense}
+            disabled={isSaving}
+            icon={"cash-outline"}
+            smallMode={true}
+          />
+        </View>
+      </Panel>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    borderRadius: 12,
-    backgroundColor: "#f5f5f5",
-  },
-  sectionHeading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  inputField: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 8,
-    marginBottom: 8,
-  },
-});
