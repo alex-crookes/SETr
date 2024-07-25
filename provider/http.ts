@@ -2,7 +2,6 @@ const API_ROOT = process.env.EXPO_PUBLIC_FIREBASE_API;
 
 import axios from "axios";
 import { Expense } from "./ExpensesReducer";
-import AppSettings from "../AppSettings";
 
 export async function addNewExpense(expenseData: Expense) {
   const response = await axios.post(`${API_ROOT}/expenses.json`, expenseData);
@@ -10,8 +9,7 @@ export async function addNewExpense(expenseData: Expense) {
   return response.data;
 }
 
-export async function fetchAllExpenses(): Promise<Expense[]> {
-  console.log(`Fetching all expenses from ${API_ROOT}`);
+export async function fetchAllExpenses(): Promise<Expense[]> {  
   const reponses = await axios.get(`${API_ROOT}/expenses.json`);
   const expenses = [];
 

@@ -4,7 +4,6 @@ import { ThemeContext } from "../ThemeProvider";
 
 const ListHeader = (props: ListHeaderProps) => {
   const { measurements, typography } = useContext(ThemeContext);
-  console.log("List header Render");
   return (
     <View
       style={{

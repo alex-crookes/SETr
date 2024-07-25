@@ -1,6 +1,11 @@
 import React, { useState, createContext, useEffect } from "react";
 import themeColors from "../material-theme.json";
-import { AnimatableNumericValue, ColorValue, DimensionValue, StyleSheet } from "react-native";
+import {
+  AnimatableNumericValue,
+  ColorValue,
+  DimensionValue,
+  StyleSheet,
+} from "react-native";
 import { ColorPalette } from "./ColorPalette";
 
 // #region Typography
@@ -161,8 +166,7 @@ function buildTypeScale(palette: ColorPalette, fontName: string) {
       color: "#FF00FF",
     },
     smallButtonLabel: { ...materialStyles.bodyMedium },
-    buttonLabel: { ...materialStyles.bodyLarge}
-
+    buttonLabel: { ...materialStyles.bodyLarge },
   });
 }
 
@@ -264,17 +268,27 @@ function buildBlocks(colors: ColorPalette, measurements: Measurements) {
       marginBottom: measurements.oneX,
       color: colors.onSurface,
     },
+    shadow: {
+      elevation: 4,
+      shadowColor: colors.shadow,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+    },
   });
 }
 
 // #endregion Blocks
 
-const defaultOptions: ThemeOptions = {
+// #region Theme Building
+type ThemeInitializationOptions = {
+  baseGrid: number;
+  baseFont: string;
+};
+const defaultOptions: ThemeInitializationOptions = {
   baseGrid: 8,
   baseFont: "Roboto",
 };
-
-// #region Theme Building
 
 const defaultColors: ColorPalette = themeColors.schemes.light;
 const defaultMeasurements = buildMeasurements(defaultOptions.baseGrid);
@@ -285,7 +299,7 @@ export const ThemeContext = createContext({
   blocks: buildBlocks(defaultColors, defaultMeasurements),
   typography: buildTypeScale(defaultColors, defaultOptions.baseFont),
   toggleTheme: () => {},
-  buildWithOptions: (options: ThemeOptions) => {},
+  buildWithOptions: (options: ThemeInitializationOptions) => {},
 });
 
 const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
@@ -293,17 +307,19 @@ const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   /**
    * Define the Basic Theme Options; Color scheme is imported from Material
    */
-  const [options, setOptions] = useState<ThemeOptions>(defaultOptions);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [options, setOptions] =
+    useState<ThemeInitializationOptions>(defaultOptions);
+  const [useDarkTheme, setUseDarkTheme] = useState(false);
 
   const [measurements, setMeasurements] = useState<Measurements>(
     buildMeasurements(options.baseGrid)
   );
 
   const [colors, setColors] = useState<ColorPalette>(themeColors.schemes.light);
-  const [typopgraphy, setTypography] = useState(
+  const [typography, setTypography] = useState(
     buildTypeScale(colors, options.baseFont)
   );
+  const [blocks, setBlocks] = useState(buildBlocks(colors, measurements));
 
   // #endregion Properties
 
@@ -313,46 +329,44 @@ const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
    * Rebuilds the Actual theme
    */
   const buildTheme = (useDarkMode: boolean) => {
-    setIsDarkTheme(useDarkMode);
-    setMeasurements(buildMeasurements(options.baseGrid));
-    const newPalette = isDarkTheme
+    const measurements = buildMeasurements(options.baseGrid);
+    const newPalette = useDarkMode
       ? themeColors.schemes.dark
       : themeColors.schemes.light;
-    setColors(newPalette);
+    const blocks = buildBlocks(newPalette, measurements);
+    const typography = buildTypeScale(newPalette, options.baseFont);
 
-    const newTypeScale = buildTypeScale(newPalette, options.baseFont);
-    setTypography(newTypeScale);
+    setColors(newPalette);
+    setUseDarkTheme(useDarkMode);
+    setMeasurements(buildMeasurements(options.baseGrid));
+    setBlocks(blocks);
+    setTypography(typography);
   };
 
   /**
    * Updates the theme to Dark <-> Light and rebuilds
    */
   const toggleTheme = () => {
-    const newTheme = !isDarkTheme;
-    buildTheme(newTheme);
+    buildTheme(!useDarkTheme);
   };
 
   /**
    * Updates the theme baseGrid and/or FontName and rebuilds
    */
-  const buildWithOptions = (options: ThemeOptions) => {
+  const buildWithOptions = (options: ThemeInitializationOptions) => {
     setOptions(options);
     buildTheme(true); // default to light Mode...
   };
 
-  // #endregion Helpers
-  console.log(
-    "Theme Provider Rendered in Mode: ",
-    isDarkTheme ? "Dark" : "Light"
-  );
+  // #endregion Helpers  
   return (
     <ThemeContext.Provider
       value={{
-        isDarkTheme,
-        colors,
+        isDarkTheme: useDarkTheme,
+        colors: colors,
         measurements: measurements,
-        typography: typopgraphy,
-        blocks: buildBlocks(colors, measurements),
+        typography: typography,
+        blocks: blocks,
         toggleTheme,
         buildWithOptions,
       }}
@@ -363,10 +377,5 @@ const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
 };
 
 export default ThemeProvider;
-
-type ThemeOptions = {
-  baseGrid: number;
-  baseFont: string;
-};
 
 // #endregion Theme Building

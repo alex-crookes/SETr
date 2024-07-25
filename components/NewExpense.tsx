@@ -15,10 +15,9 @@ export function NewExpense() {
   const isSaving = useSelector((state: any) => state.ExpensesReducer.saving);
   const dispatch = useDispatch();
   
-  const { blocks, measurements } = useContext(ThemeContext);
+  const { blocks, measurements, colors } = useContext(ThemeContext);
 
-  function handleAmountChange(value: string) {
-    console.log("Amount = ", value);
+  function handleAmountChange(value: string) {    
     setAmount(value);
   }
 
@@ -45,6 +44,7 @@ export function NewExpense() {
           style={blocks.inputTextField}
           maxLength={200}
           placeholder={translate("common_Description")}
+          placeholderTextColor={ colors.outline}          
           multiline={true}
           numberOfLines={4}
           value={description}

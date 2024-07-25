@@ -21,7 +21,7 @@ function MainPage() {
 
   const [submitting, isSubmitting] = useState(false);
 
-  const { isDarkTheme, colors, measurements, blocks, typography, toggleTheme } =
+  const { isDarkTheme, blocks, typography, toggleTheme } =
     useContext(ThemeContext);
 
   const expenses: Expense[] = useSelector(

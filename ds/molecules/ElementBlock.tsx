@@ -4,8 +4,7 @@ import { ThemeContext } from "../ThemeProvider";
 
 const ElementBlock = (props: ElementBlockProps) => {
   const { measurements } = useContext(ThemeContext);
-
-  console.log("Element Render")
+  
   return (
     <View
       style={{
