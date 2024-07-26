@@ -7,7 +7,7 @@ export async function loadExpenses(dispatch: Dispatch<any>) {
   dispatch(expensesActions.setLoading(true));
   fetchAllExpenses()
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       dispatch(expensesActions.setExpenses(data));
     })
     .catch((error) => {

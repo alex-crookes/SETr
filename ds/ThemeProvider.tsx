@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import themeColors from "../material-theme.json";
 import {
   AnimatableNumericValue,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { ColorPalette } from "./ColorPalette";
+import { AppSettingsContext } from "../provider/AppSettingsStorage";
 
 // #region Typography
 
@@ -321,6 +322,13 @@ const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   );
   const [blocks, setBlocks] = useState(buildBlocks(colors, measurements));
 
+  const { themeSettings, updateThemeSettings } = useContext(AppSettingsContext);
+
+  useEffect(() => {
+    console.log("BUilding theme with dark mode - ", themeSettings.useDarkMode);
+    buildTheme(themeSettings.useDarkMode);
+  }, []);
+
   // #endregion Properties
 
   // #region Helpers
@@ -337,7 +345,7 @@ const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
     const typography = buildTypeScale(newPalette, options.baseFont);
 
     setColors(newPalette);
-    setUseDarkTheme(useDarkMode);
+    setUseDarkTheme(useDarkMode);    
     setMeasurements(buildMeasurements(options.baseGrid));
     setBlocks(blocks);
     setTypography(typography);
@@ -347,15 +355,18 @@ const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
    * Updates the theme to Dark <-> Light and rebuilds
    */
   const toggleTheme = () => {
-    buildTheme(!useDarkTheme);
+    const newDarkMode = !useDarkTheme
+    buildTheme(newDarkMode);
+    const newSettings = { ...themeSettings, useDarkMode: newDarkMode };
+    updateThemeSettings(newSettings);    
   };
 
   /**
    * Updates the theme baseGrid and/or FontName and rebuilds
    */
   const buildWithOptions = (options: ThemeInitializationOptions) => {
-    setOptions(options);
-    buildTheme(true); // default to light Mode...
+    // setOptions(options);
+    // buildTheme(true); // default to light Mode...
   };
 
   // #endregion Helpers  
