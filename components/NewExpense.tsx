@@ -12,12 +12,12 @@ import PrimaryButton from "../ds/molecules/PrimaryButton";
 export function NewExpense() {
   const [amount, setAmount] = useState("0.0");
   const [description, setDescription] = useState("");
-  const isSaving = useSelector((state: any) => state.ExpensesReducer.saving);
+  const isSaving = useSelector((state: any) => state.expensesStore.saving);
   const dispatch = useDispatch();
-  
+
   const { blocks, measurements, colors } = useContext(ThemeContext);
 
-  function handleAmountChange(value: string) {    
+  function handleAmountChange(value: string) {
     setAmount(value);
   }
 
@@ -31,42 +31,40 @@ export function NewExpense() {
   }
 
   return (
-    <>
-      <Panel title={translate("section_NewExpense")}>
-        <TextInput
-          style={blocks.inputTextField}
-          keyboardType="decimal-pad"
-          placeholder={translate("common_Amount")}
-          value={amount.toString()}
-          onChangeText={handleAmountChange}
+    <Panel title={translate("section_NewExpense")}>
+      <TextInput
+        style={blocks.inputTextField}
+        keyboardType="decimal-pad"
+        placeholder={translate("common_Amount")}
+        value={amount.toString()}
+        onChangeText={handleAmountChange}
+      />
+      <TextInput
+        style={blocks.inputTextField}
+        maxLength={200}
+        placeholder={translate("common_Description")}
+        placeholderTextColor={colors.outline}
+        multiline={true}
+        numberOfLines={4}
+        value={description}
+        onChangeText={handleDescriptionChange}
+      />
+      <View
+        style={{
+          width: measurements.twentyX,
+          justifyContent: "center",
+          alignSelf: "center",
+          flexDirection: "column",
+        }}
+      >
+        <PrimaryButton
+          title={translate("action_AddExpense")}
+          onPress={handleSaveExpense}
+          disabled={isSaving}
+          icon={"cash-outline"}
+          smallMode={true}
         />
-        <TextInput
-          style={blocks.inputTextField}
-          maxLength={200}
-          placeholder={translate("common_Description")}
-          placeholderTextColor={ colors.outline}          
-          multiline={true}
-          numberOfLines={4}
-          value={description}
-          onChangeText={handleDescriptionChange}
-        />
-        <View
-          style={{
-            width: measurements.twentyX,
-            justifyContent: "center",
-            alignSelf: "center",
-            flexDirection: "column",
-          }}
-        >
-          <PrimaryButton
-            title={translate("action_AddExpense")}
-            onPress={handleSaveExpense}
-            disabled={isSaving}
-            icon={"cash-outline"}
-            smallMode={true}
-          />
-        </View>
-      </Panel>
-    </>
+      </View>
+    </Panel>
   );
 }

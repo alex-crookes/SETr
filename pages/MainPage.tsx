@@ -11,9 +11,13 @@ import { ThemeContext } from "../ds/ThemeProvider";
 import ListHeader from "../ds/molecules/ListHeader";
 import ElementBlock from "../ds/molecules/ElementBlock";
 import SecondaryButton from "../ds/molecules/SecondaryButton";
+import { appSettingsActions } from "../provider/AppSettingsStorage";
 
 function MainPage() {
   const dispatch = useDispatch();
+  const themeOptions = useSelector(
+    (state: RootState) => state?.appSettingsStore?.themeSettings
+  );
 
   useEffect(() => {
     loadExpenses(dispatch);
@@ -21,14 +25,13 @@ function MainPage() {
 
   const [submitting, isSubmitting] = useState(false);
 
-  const { isDarkTheme, blocks, typography, toggleTheme } =
-    useContext(ThemeContext);
+  const { blocks, typography } = useContext(ThemeContext);
 
   const expenses: Expense[] = useSelector(
-    (state: RootState) => state.ExpensesReducer.expenses
+    (state: RootState) => state.expensesStore.expenses
   );
   const loading: boolean = useSelector(
-    (state: RootState) => state.ExpensesReducer.loading
+    (state: RootState) => state.expensesStore.loading
   );
 
   const text = loading
@@ -38,17 +41,19 @@ function MainPage() {
   const title = `${translate("app_Name")} - ${translate(
     "section_RecentExpenses"
   )}`;
-  const icon = isDarkTheme ? "sunny-outline" : "moon-outline";
+  const icon = themeOptions.useDarkMode ? "sunny-outline" : "moon-outline";
 
   const handleThemeChange = () => {
-    isSubmitting(true);
-    toggleTheme();
+    isSubmitting(true);    
+    dispatch(appSettingsActions.useDarkMode(!(themeOptions?.useDarkMode ?? false)));
     setTimeout(() => {
       isSubmitting(false);
     }, 1000);
   };
 
-  const themeButtonText = isDarkTheme ? "USE LIGHT MODE" : "USE DARK MODE";
+  const themeButtonText = themeOptions.useDarkMode
+    ? "USE LIGHT MODE"
+    : "USE DARK MODE";
 
   return (
     <View style={blocks.pageContainer}>
@@ -67,7 +72,7 @@ function MainPage() {
         title={themeButtonText}
         onPress={handleThemeChange}
         disabled={submitting}
-        icon={icon}        
+        icon={icon}
       />
     </View>
   );

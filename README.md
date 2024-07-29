@@ -35,11 +35,17 @@ The Theme can also be initialized with a base Font and base Grid Size. Currently
 
 Common, opinionated components can be found in `./ds/components` and demonstrate best practices. Where built, they provide _as little customization as possible_ except modification.
 
-Button components are now added - There are currently three type `<PrimaryButton>`, `<SecondaryButton>` and `<LinkButton>` (correspond to Filled, Outlined and Text in Material). They are created as Components rather than style to provide encapsulation. 
+Button components are now added - There are currently three type `<PrimaryButton>`, `<SecondaryButton>` and `<LinkButton>` (correspond to Filled, Outlined and Text in Material). They are created as Components rather than style to provide encapsulation.
 
 Primary and Secondary are essentally the same and can optionally be presented with an [Ionicon](https://ionic.io/ionicons) icon and in small mode. LinkButtons will ignore the icon
 
 Ideally, there would be some refactoring to create a single button class, but it will get ugly when managing the various permutations.
+
+## Application State
+
+While a Context Provider could be created to managed Persistence of State, it's actually easier to Redux with a Persistence library, as it allow simple configuration for persisting mulitple stores.
+
+This was implemented by Leaving the Theme as a Context Provider, but providing a REDUX-based AppSettingsStore that manages dark mode /etc.
 
 ### Next Steps
 
@@ -47,5 +53,8 @@ There are two main goals moving forward:
 
 - Develop the component library to include ~~buttons and other~~ elements
 - ~~extend the styles to be more semantic and complete~~ This is ongoing and will always be required when adding new Components to the DS
-- fix a couple of bugs with style switching
-- Add a persistence layer to permit storing settings over a reboot.
+- ~~ fix a couple of bugs with style switching~~
+- ~~Add a persistence layer to permit storing settings over a reboot.~~
+- Add / Remove and Query Expense items in the list
+- Extend the data model to include a category (and make the data prettier...)
+- Add a Navigation / toolbar
