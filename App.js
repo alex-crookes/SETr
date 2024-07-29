@@ -1,18 +1,17 @@
 import { Provider } from "react-redux";
-import { reduxStore } from "./provider/RootStore";
+import { persistedStore, reduxStore } from "./provider/RootStore";
 import ThemeProvider from "./ds/ThemeProvider";
 import AppPage from "./pages/AppPage";
-import AppSettingsProvider from "./provider/AppSettingsStorage";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
   return (
     <Provider store={reduxStore}>
-      <AppSettingsProvider>
+      <PersistGate loading={null} persistor={persistedStore}>
         <ThemeProvider>
           <AppPage />
         </ThemeProvider>
-      </AppSettingsProvider>
+      </PersistGate>
     </Provider>
   );
 }
-  
