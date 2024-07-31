@@ -1,31 +1,28 @@
 import { useContext, useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { loadExpenses } from "../repository/Expenses";
 import { Expense } from "../provider/ExpensesReducer";
 import { RootState } from "../provider/RootStore";
 import { NewExpense } from "../components/NewExpense";
 import ExpenseDetail from "../components/ExpenseDetail";
-import { translate } from "../localization/Localization";
+import { localizeCurrency, translate } from "../localization/Localization";
 import { ThemeContext } from "../ds/ThemeProvider";
 import ListHeader from "../ds/molecules/ListHeader";
 import ElementBlock from "../ds/molecules/ElementBlock";
-import SecondaryButton from "../ds/molecules/SecondaryButton";
-import { appSettingsActions } from "../provider/AppSettingsStorage";
+import LinkButton from "../ds/molecules/LinkButton";
+import { useNavigation } from "@react-navigation/native";
 
+const take = 5;
 function MainPage() {
   const dispatch = useDispatch();
-  const themeOptions = useSelector(
-    (state: RootState) => state?.appSettingsStore?.themeSettings
-  );
-
   useEffect(() => {
     loadExpenses(dispatch);
   }, []);
 
-  const [submitting, isSubmitting] = useState(false);
+  const { blocks, typography, colors } = useContext(ThemeContext);
 
-  const { blocks, typography } = useContext(ThemeContext);
+  const navigator = useNavigation();
 
   const expenses: Expense[] = useSelector(
     (state: RootState) => state.expensesStore.expenses
@@ -34,46 +31,70 @@ function MainPage() {
     (state: RootState) => state.expensesStore.loading
   );
 
-  const text = loading
-    ? translate("common_Loading")
-    : translate("expense_ThereAreX", { count: expenses.length });
+  const total = expenses.reduce((acc, expense) => acc + expense.amount, 0);
 
-  const title = `${translate("app_Name")} - ${translate(
-    "section_RecentExpenses"
-  )}`;
-  const icon = themeOptions.useDarkMode ? "sunny-outline" : "moon-outline";
+  const mostRecentExpenses = expenses.slice(0, take).reverse();
 
-  const handleThemeChange = () => {
-    isSubmitting(true);    
-    dispatch(appSettingsActions.useDarkMode(!(themeOptions?.useDarkMode ?? false)));
-    setTimeout(() => {
-      isSubmitting(false);
-    }, 1000);
+  const title = `${translate("section_RecentExpenses")}`;
+  const header = (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+      }}
+    >
+      <View style={{ flex: 1 }}>
+        <ListHeader text={title} />
+      </View>
+      {loading && (
+        <View style={{}}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      )}
+    </View>
+  );
+
+  const handleSeeMore = () => {
+    navigator.navigate("Expenses");
   };
 
-  const themeButtonText = themeOptions.useDarkMode
-    ? "USE LIGHT MODE"
-    : "USE DARK MODE";
+  const footer = (
+    <>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text style={[typography.body]}>{translate("common_Total")}</Text>
+        <Text style={[typography.displaySmall, {}]}>
+          {localizeCurrency(total)}
+        </Text>
+      </View>
+      <LinkButton
+        title={translate("expense_SeeXMore", { count: expenses.length - take })}
+        disabled={false}
+        onPress={handleSeeMore}
+      />
+    </>
+  );
 
   return (
     <View style={blocks.pageContainer}>
       <ElementBlock>
         <NewExpense />
+        {/* {loading && <ActivityIndicator size="large" color={colors.primary} />}
+        {!loading && ( */}
         <FlatList
-          data={expenses}
-          ListHeaderComponent={<ListHeader text={title} />}
+          data={mostRecentExpenses}
+          ListHeaderComponent={header}
+          ListFooterComponent={footer}
           renderItem={({ item }) => <ExpenseDetail expense={item} />}
           keyExtractor={(item) => item.id}
         />
       </ElementBlock>
-      <Text style={typography.bodyError}>{text}</Text>
-
-      <SecondaryButton
-        title={themeButtonText}
-        onPress={handleThemeChange}
-        disabled={submitting}
-        icon={icon}
-      />
     </View>
   );
 }
