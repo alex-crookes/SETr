@@ -4,12 +4,19 @@
   "common_Description": "XX_Description",
   "common_Amount": "XX_Amount",
   "common_Loading": "XX_Loading...",
+  "common_TotalWithAmount": "XX_Total: %{total}",
+  "common_Total": "XX_Total: ",
 
   "section_NewExpense": "XX_New Expense",
   "section_RecentExpenses": "XX_Recent Expenses",
+  "section_AllExpenses": "All Expenses",
 
   "action_AddExpense": "XX_Add Expense",
-
+  "expense_SeeXMore": {
+    "zero": "XX_See no more",
+    "one": "XX_See 1 more",
+    "other": "XX_See %{count} more"
+  },
   "expense_ThereAreX": {
     "zero": "XX_There are no records",
     "one": "XX_There is one record",

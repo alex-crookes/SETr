@@ -37,22 +37,22 @@ function buildTypeScale(palette: ColorPalette, fontName: string) {
   const materialStyles = StyleSheet.create({
     // #region Display Text
     displayLarge: {
+      ...baseBody,
       fontSize: 57,
       lineHeight: 64,
       letterSpacing: -0.25,
-      ...baseBody,
     },
     displayMedium: {
+      ...baseBody,
       fontSize: 45,
       lineHeight: 52,
       letterSpacing: 0,
-      ...baseBody,
     },
     displaySmall: {
+      ...baseBody,
       fontSize: 36,
       lineHeight: 44,
       letterSpacing: 0,
-      ...baseBody,
     },
 
     // #endregion Display Text
@@ -60,22 +60,22 @@ function buildTypeScale(palette: ColorPalette, fontName: string) {
     // #region Headline Text
 
     headlineLarge: {
+      ...baseBody,
       fontSize: 32,
       lineHeight: 40,
       letterSpacing: 0,
-      ...baseBody,
     },
     headlineMedium: {
+      ...baseBody,
       fontSize: 28,
       lineHeight: 36,
       letterSpacing: 0,
-      ...baseBody,
     },
     headlineSmall: {
+      ...baseBody,
       fontSize: 24,
       lineHeight: 32,
       letterSpacing: 0,
-      ...baseBody,
     },
 
     // #endregion Headline Text
@@ -159,6 +159,7 @@ function buildTypeScale(palette: ColorPalette, fontName: string) {
     caption: {
       ...materialStyles.labelSmall,
     },
+    displaySmall: { ...materialStyles.displaySmall },
     title: { ...materialStyles.titleMedium },
     titleLarge: {
       ...materialStyles.titleLarge,
@@ -166,7 +167,7 @@ function buildTypeScale(palette: ColorPalette, fontName: string) {
     titleSmall: { ...materialStyles.titleSmall },
     labelLarge: {
       ...materialStyles.labelLarge,
-      color: "#FF00FF",
+      color: palette.primary,
     },
     smallButtonLabel: { ...materialStyles.bodyMedium },
     buttonLabel: { ...materialStyles.bodyLarge },
@@ -257,6 +258,7 @@ function buildBlocks(colors: ColorPalette, measurements: Measurements) {
       paddingHorizontal: measurements.pageGutter,
     },
     pageContainer: {
+      marginHorizontal: measurements.pageGutter,
       /*backgroundColor: colors.background*/
     },
     section: { marginTop: measurements.sectionGap },
@@ -290,6 +292,16 @@ const defaultColors: ColorPalette = defaultThemeSettings.useDarkMode
   : themeColors.schemes.light;
 const defaultMeasurements = buildMeasurements(defaultThemeSettings.baseGrid);
 
+/**
+ * To use the actual Device Dark/Light mode, you can use the following code:
+ *
+ * const useDarkMode = useTheme().colors.mode === "dark";
+ *
+ * Once done, update the "useEffect" method to vary based on this instead.
+ * There would also *technically* be no need to save it, unless the user wants
+ * to override dark mode
+ *
+ */
 export const ThemeContext = createContext({
   measurements: defaultMeasurements,
   colors: defaultColors,
@@ -298,9 +310,6 @@ export const ThemeContext = createContext({
 });
 
 const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
-  const expenses = useSelector(
-    (store: RootState) => store.expensesStore.expenses
-  );
   const themeOptions = useSelector(
     (store: RootState) => store.appSettingsStore.themeSettings
   );
@@ -330,8 +339,6 @@ const ThemeProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
     buildTypeScale(colors, themeOptions.baseFont)
   );
   const [blocks, setBlocks] = useState(buildBlocks(colors, measurements));
-
-  //const { themeSettings, updateThemeSettings } = useContext(AppSettingsContext);
 
   // #endregion Properties
 
