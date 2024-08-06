@@ -32,12 +32,6 @@ function TabNavigator() {
     dark: themeOptions.useDarkMode,
   };
 
-  console.log(
-    "Primary is ",
-    colors.primary,
-    " and rgba = ",
-    hexToRGB(colors.primary)
-  );
   return (
     <NavigationContainer theme={theme}>
       <Tab.Navigator

@@ -23,5 +23,10 @@
     "zero": "There are no records",
     "one": "There is one record",
     "other": "There are %{count} records"
+  },
+  "expenses_SevenDaySummary": {
+    "zero": "You haven't spent anything in the last 7 days",
+    "one": "You've made %{count} transaction totalling %{total}",
+    "other": "You've made %{count} transactions totalling %{total}"
   }
 }

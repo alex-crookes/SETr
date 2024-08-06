@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { localizeCurrency } from "../localization/Localization";
 import { ThemeContext } from "../ds/ThemeProvider";
 import { useContext } from "react";
+import TextLozenge from "../ds/molecules/TextLozenge";
 
 function ExpenseDetail({ expense }: Props) {
   const { measurements, typography, colors } = useContext(ThemeContext);
@@ -29,12 +30,13 @@ function ExpenseDetail({ expense }: Props) {
           flex: 1,
         }}
       >
-        <Text style={typography.titleSmall}>{expense.description}</Text>
+        <Text style={[typography.titleSmall, { marginBottom: 4 }]}>
+          {expense.description}
+        </Text>
         <Text style={typography.bodySmallPassive}>{printedDate}</Text>
       </View>
-      <View>
-        <Text style={typography.title}>{localizeCurrency(expense.amount)}</Text>
-      </View>
+      <TextLozenge text={localizeCurrency(expense.amount)} />
+      
     </View>
   );
 }

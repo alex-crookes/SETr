@@ -35,7 +35,7 @@ export type Expense = {
   amount: number;
   date: number;
   description: string;
-  id: string | null;
+  id: string | null; // null if create locally, but not yet persisted
 };
 
 export const expensesActions = ExpensesSlice.actions;

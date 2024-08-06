@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { loadExpenses } from "../repository/Expenses";
@@ -12,12 +12,17 @@ import ListHeader from "../ds/molecules/ListHeader";
 import ElementBlock from "../ds/molecules/ElementBlock";
 import LinkButton from "../ds/molecules/LinkButton";
 import { useNavigation } from "@react-navigation/native";
+import ExpenseSummary from "../components/ExpenseSummary";
 
 const take = 5;
 function MainPage() {
   const dispatch = useDispatch();
   useEffect(() => {
-    loadExpenses(dispatch);
+    async function getExpenses() {
+      await loadExpenses(dispatch);
+    }
+
+    getExpenses();
   }, []);
 
   const { blocks, typography, colors } = useContext(ThemeContext);
@@ -33,7 +38,9 @@ function MainPage() {
 
   const total = expenses.reduce((acc, expense) => acc + expense.amount, 0);
 
-  const mostRecentExpenses = expenses.slice(0, take).reverse();
+  const mostRecentExpenses = expenses
+    .slice(expenses.length - take, expenses.length)
+    .reverse();
 
   const title = `${translate("section_RecentExpenses")}`;
   const header = (
@@ -84,9 +91,10 @@ function MainPage() {
   return (
     <View style={blocks.pageContainer}>
       <ElementBlock>
-        <NewExpense />
-        {/* {loading && <ActivityIndicator size="large" color={colors.primary} />}
-        {!loading && ( */}
+        <ExpenseSummary />
+      </ElementBlock>
+      <ElementBlock>
+        <NewExpense />        
         <FlatList
           data={mostRecentExpenses}
           ListHeaderComponent={header}
