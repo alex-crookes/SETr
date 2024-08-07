@@ -65,7 +65,7 @@ export type ButtonProps = {
   icon?: keyof typeof Ionicons.glyphMap|undefined;
   title: string;
   onPress: () => void | null;
-  disabled: boolean;
+  disabled?: boolean;
   smallMode?: boolean|undefined;
 };
 

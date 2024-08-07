@@ -9,6 +9,7 @@ import ListHeader from "../ds/molecules/ListHeader";
 import ExpenseDetail from "../components/ExpenseDetail";
 import { translate } from "../localization/Localization";
 import DateRangePicker from "../components/DateRangePicker";
+import NewExpenseBottomSheet from "../components/NewExpenseBottomSheet";
 
 function ExpensesListPage() {
   const { blocks } = useContext(ThemeContext);
@@ -16,10 +17,10 @@ function ExpensesListPage() {
     (state: RootState) => state.expensesStore.expenses
   );
 
-  const [ startDate, setStartDate ] = useState<Date | undefined>(undefined);
-  const [ endDate, setEndDate ] = useState<Date | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const title = `${translate("section_AllExpenses")}`;
-  
+
   const handleDateChange = (
     startDate: Date | undefined,
     endDate: Date | undefined
@@ -38,12 +39,11 @@ function ExpensesListPage() {
       const expenseDate = new Date(expense.date);
       return expenseDate >= startDate && expenseDate <= endDate;
     });
-  }
+  };
 
   return (
-    <View style={blocks.pageContainer}>      
-      <DateRangePicker
-        onSuccess={handleDateChange} />
+    <View style={blocks.pageContainer}>
+      <DateRangePicker onSuccess={handleDateChange} />
       <ElementBlock>
         <FlatList
           data={filteredExpenses()}
@@ -52,6 +52,7 @@ function ExpensesListPage() {
           keyExtractor={(item) => item.id}
         />
       </ElementBlock>
+      <NewExpenseBottomSheet />
     </View>
   );
 }
