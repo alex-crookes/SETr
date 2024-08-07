@@ -144,7 +144,6 @@ const DateRangePicker = (props: Props) => {
     const arr = Object.keys(markedDates);
     const start = arr.filter((key) => markedDates[key].startingDay);
     const end = arr.filter((key) => markedDates[key].endingDay);
-    console.log(`start is -${start}- and end is -${end}-`);
 
     const formattedStart = DateTime.fromISO(start[0]).toLocaleString(
       DateTime.DATE_MED

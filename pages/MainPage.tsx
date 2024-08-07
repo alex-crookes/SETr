@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadExpenses } from "../repository/Expenses";
 import { Expense } from "../provider/ExpensesReducer";
 import { RootState } from "../provider/RootStore";
-import { NewExpense } from "../components/NewExpense";
 import ExpenseDetail from "../components/ExpenseDetail";
 import { localizeCurrency, translate } from "../localization/Localization";
 import { ThemeContext } from "../ds/ThemeProvider";
@@ -13,6 +12,7 @@ import ElementBlock from "../ds/molecules/ElementBlock";
 import LinkButton from "../ds/molecules/LinkButton";
 import { useNavigation } from "@react-navigation/native";
 import ExpenseSummary from "../components/ExpenseSummary";
+import NewExpenseBottomSheet from "../components/NewExpenseBottomSheet";
 
 const take = 5;
 function MainPage() {
@@ -93,8 +93,7 @@ function MainPage() {
       <ElementBlock>
         <ExpenseSummary />
       </ElementBlock>
-      <ElementBlock>
-        <NewExpense />        
+      <ElementBlock>        
         <FlatList
           data={mostRecentExpenses}
           ListHeaderComponent={header}
@@ -103,6 +102,7 @@ function MainPage() {
           keyExtractor={(item) => item.id}
         />
       </ElementBlock>
+      <NewExpenseBottomSheet />
     </View>
   );
 }

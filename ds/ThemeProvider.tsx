@@ -209,6 +209,8 @@ type Measurements = {
   buttonCornerRadius: DimensionValue;
   smallButtonHeight: DimensionValue;
   smallButtonCornerRadius: DimensionValue;
+  fabSize: DimensionValue;
+  smallFabSize: DimensionValue;
 };
 
 function buildMeasurements(gridSize: number): Measurements {
@@ -243,6 +245,8 @@ function buildMeasurements(gridSize: number): Measurements {
     buttonCornerRadius: (gridSize * 4) as DimensionValue,
     smallButtonHeight: (gridSize * 5) as DimensionValue,
     smallButtonCornerRadius: (gridSize * 2.5) as DimensionValue,
+    fabSize: (gridSize * 6) as DimensionValue,
+    smallFabSize: (gridSize * 4) as DimensionValue,
   };
 }
 
@@ -259,7 +263,7 @@ function buildBlocks(colors: ColorPalette, measurements: Measurements) {
     },
     pageContainer: {
       marginHorizontal: measurements.pageGutter,
-      /*backgroundColor: colors.background*/
+      flex: 1,
     },
     section: { marginTop: measurements.sectionGap },
     element: { marginTop: measurements.paragraphGap },
