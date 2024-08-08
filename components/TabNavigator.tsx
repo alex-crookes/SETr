@@ -38,7 +38,7 @@ function TabNavigator() {
         screenOptions={({ route }) => {
           return {
             tabBarIcon: ({ focused, color, size }) => {
-              let iconName = "home";
+              let iconName: keyof typeof Ionicons.glyphMap = "home";
               if (route.name === "Expenses") {
                 iconName = "list";
               } else if (route.name === "Settings") {
