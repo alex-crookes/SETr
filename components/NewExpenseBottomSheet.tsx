@@ -11,7 +11,7 @@ import { getCurrentMilliseconds } from "../extensions/time";
 import Panel from "../ds/molecules/Panel";
 
 function NewExpenseBottomSheet() {
-  const { colors, blocks, measurements,  } = useContext(ThemeContext);
+  const { colors, blocks, measurements } = useContext(ThemeContext);
   const sheet = useRef();
   const [amount, setAmount] = useState("0.0");
   const [description, setDescription] = useState("");
@@ -28,17 +28,23 @@ function NewExpenseBottomSheet() {
 
   function handleSaveExpense() {
     const newAmount = parseFloat(amount);
-    addNew(newAmount, description, getCurrentMilliseconds(), dispatch).then(() => {
-      sheet.current.close();
-    });
+    addNew(newAmount, description, getCurrentMilliseconds(), dispatch).then(
+      () => {
+        if (sheet.current) {
+          sheet.current?.close();
+        }
+      }
+    );
   }
-  
+
   return (
-    <View style={{position: "absolute", bottom: 0, right: 0}}>
-      <View style={{ position: "absolute", bottom: 16, right: 0, zIndex: 1000 }}>
+    <View style={{ position: "absolute", bottom: 0, right: 0, height: 300 }}>
+      <View
+        style={{ position: "absolute", bottom: 16, right: 0, zIndex: 1000 }}
+      >
         <FabIconButton
           icon={"add-outline"}
-          onPress={() => sheet.current.open()}
+          onPress={() => sheet.current?.open()}
         />
       </View>
       <RBSheet

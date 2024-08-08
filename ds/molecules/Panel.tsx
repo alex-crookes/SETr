@@ -3,7 +3,7 @@ import { ThemeContext } from "../ThemeProvider";
 import { useContext } from "react";
 
 function Panel(props: PanelProps) {
-  const { blocks, measurements, typography, colors } = useContext(ThemeContext);
+  const { measurements, typography, colors } = useContext(ThemeContext);
   return (
     <View
       style={{
