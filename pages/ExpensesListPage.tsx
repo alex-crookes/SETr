@@ -9,7 +9,7 @@ import ListHeader from "../ds/molecules/ListHeader";
 import ExpenseDetail from "../components/ExpenseDetail";
 import { translate } from "../localization/Localization";
 import DateRangePicker from "../components/DateRangePicker";
-import NewExpenseBottomSheet from "../components/NewExpenseBottomSheet";
+import ExpensesTotal from "../components/ExpensesTotal";
 
 function ExpensesListPage() {
   const { blocks } = useContext(ThemeContext);
@@ -41,6 +41,8 @@ function ExpensesListPage() {
     });
   };
 
+  const filteredTotal = filteredExpenses().reduce((acc, expense) => acc + expense.amount, 0);
+
   return (
     <View style={blocks.pageContainer}>
       <DateRangePicker onSuccess={handleDateChange} />
@@ -51,8 +53,8 @@ function ExpensesListPage() {
           renderItem={({ item }) => <ExpenseDetail expense={item} />}
           keyExtractor={(item) => item.id}
         />
-      </ElementBlock>
-      <NewExpenseBottomSheet />
+      </ElementBlock>      
+      <ExpensesTotal total={filteredTotal} />
     </View>
   );
 }

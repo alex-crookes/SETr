@@ -3,7 +3,6 @@ import MainPage from "../pages/MainPage";
 import ExpensesListPage from "../pages/ExpensesListPage";
 import SettingsPage from "../pages/SettingsPage";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { useContext } from "react";
