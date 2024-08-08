@@ -5,6 +5,9 @@ import XDate from "xdate";
 import SecondaryButton from "../ds/molecules/SecondaryButton";
 import ElementBlock from "../ds/molecules/ElementBlock";
 import { DateTime } from "luxon";
+import LinkButton from "../ds/molecules/LinkButton";
+import { View } from "react-native";
+import { translate } from "../localization/Localization";
 
 const DateRangePicker = (props: Props) => {
   const { colors } = useContext(ThemeContext);
@@ -113,30 +116,48 @@ const DateRangePicker = (props: Props) => {
     }
   };
 
+  const handleResetDateRange = () => {
+    setIsFromDatePicked(false);
+    setIsToDatePicked(false);
+    setMarkedDates({});
+    setStartMarked("");
+    setSelectingDate(false);
+    props.onClear();
+  };
+
   const handleOpenDateRange = () => {
     setSelectingDate(true);
   };
 
   const calendar = () => {
     return (
-      <Calendar
-        {...props}
-        markingType="period"
-        current={startMarked}
-        markedDates={markedDates}
-        onDayPress={handleDayPress}
-        headerStyle={{ backgroundColor: colors.secondary.toString() }}
-        theme={{
-          arrowColor: colors.onPrimary.toString(),
-          backgroundColor: colors.background.toString(),
-          calendarBackground: colors.background.toString(),
-          textSectionTitleColor: colors.onBackground.toString(),
-          selectedDayBackgroundColor: colors.primary.toString(),
-          selectedDayTextColor: colors.onPrimary.toString(),
-          dayTextColor: colors.onBackground.toString(),
-          textDisabledColor: colors.onSecondary.toString(),
-        }}
-      />
+      <>
+        <Calendar
+          {...props}
+          markingType="period"
+          current={startMarked}
+          markedDates={markedDates}
+          onDayPress={handleDayPress}
+          headerStyle={{ backgroundColor: colors.secondary.toString() }}
+          theme={{
+            arrowColor: colors.onPrimary.toString(),
+            backgroundColor: colors.background.toString(),
+            calendarBackground: colors.background.toString(),
+            textSectionTitleColor: colors.onBackground.toString(),
+            selectedDayBackgroundColor: colors.primary.toString(),
+            selectedDayTextColor: colors.onPrimary.toString(),
+            dayTextColor: colors.onBackground.toString(),
+            textDisabledColor: colors.onSecondary.toString(),
+          }}
+        />
+        {isFromDatePicked && (
+          <LinkButton
+            smallMode
+            title={translate("common_Reset")}
+            onPress={handleResetDateRange}
+          />
+        )}
+      </>
     );
   };
 
@@ -177,4 +198,5 @@ type Props = {
   startDate?: string | undefined;
   endDate?: string | undefined;
   onSuccess: (startDate: Date, endDate: Date) => void;
+  onClear: () => void;
 };
