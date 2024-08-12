@@ -6,6 +6,7 @@
   "common_Loading": "XX_Loading...",
   "common_TotalWithAmount": "XX_Total: %{total}",
   "common_Total": "XX_Total: ",
+  "common_Reset": "XX_Reset",
 
   "section_NewExpense": "XX_New Expense",
   "section_RecentExpenses": "XX_Recent Expenses",

@@ -38,9 +38,21 @@ function NewExpenseBottomSheet() {
   }
 
   return (
-    <View style={{ position: "absolute", bottom: 0, right: 0, height: 300 }}>
+    <View
+      style={{
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        height: 300,
+      }}
+    >
       <View
-        style={{ position: "absolute", bottom: 16, right: 0, zIndex: 1000 }}
+        style={{
+          position: "absolute",
+          bottom: 16,
+          right: 16,
+          zIndex: 1000,
+        }}
       >
         <FabIconButton
           icon={"add-outline"}

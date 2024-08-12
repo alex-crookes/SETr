@@ -1,18 +1,18 @@
 import { useContext, useEffect } from "react";
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import { View, FlatList, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { loadExpenses } from "../repository/Expenses";
 import { Expense } from "../provider/ExpensesReducer";
 import { RootState } from "../provider/RootStore";
 import ExpenseDetail from "../components/ExpenseDetail";
-import { localizeCurrency, translate } from "../localization/Localization";
 import { ThemeContext } from "../ds/ThemeProvider";
 import ListHeader from "../ds/molecules/ListHeader";
 import ElementBlock from "../ds/molecules/ElementBlock";
 import LinkButton from "../ds/molecules/LinkButton";
 import { useNavigation } from "@react-navigation/native";
 import ExpenseSummary from "../components/ExpenseSummary";
-import NewExpenseBottomSheet from "../components/NewExpenseBottomSheet";
+import ExpensesTotal from "../components/ExpensesTotal";
+import { translate } from "../localization/Localization";
 
 const take = 5;
 function MainPage() {
@@ -25,7 +25,7 @@ function MainPage() {
     getExpenses();
   }, []);
 
-  const { blocks, typography, colors } = useContext(ThemeContext);
+  const { blocks, colors } = useContext(ThemeContext);
 
   const navigator = useNavigation();
 
@@ -67,25 +67,11 @@ function MainPage() {
   };
 
   const footer = (
-    <>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Text style={[typography.body]}>{translate("common_Total")}</Text>
-        <Text style={[typography.displaySmall, {}]}>
-          {localizeCurrency(total)}
-        </Text>
-      </View>
-      <LinkButton
-        title={translate("expense_SeeXMore", { count: expenses.length - take })}
-        disabled={false}
-        onPress={handleSeeMore}
-      />
-    </>
+    <LinkButton
+      title={translate("expense_SeeXMore", { count: expenses.length - take })}
+      disabled={false}
+      onPress={handleSeeMore}
+    />
   );
 
   return (
@@ -93,7 +79,7 @@ function MainPage() {
       <ElementBlock>
         <ExpenseSummary />
       </ElementBlock>
-      <ElementBlock>        
+      <ElementBlock>
         <FlatList
           data={mostRecentExpenses}
           ListHeaderComponent={header}
@@ -102,7 +88,7 @@ function MainPage() {
           keyExtractor={(item) => item.id}
         />
       </ElementBlock>
-      <NewExpenseBottomSheet />
+      <ExpensesTotal total={total} />      
     </View>
   );
 }
